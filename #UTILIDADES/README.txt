@@ -26,6 +26,41 @@ Recibe
 -          Metodo de sync
 -          Ultima conexion del usuario.
  			
+            
+##-----------------------------------------------------------------------------------------------------------------------
+SELECT id AS user_id ,NAME,email,admin,co_sucu,co_vendedor,nombre,apellido,activo,last_sync,PASSWORD,created_at,updated_at,deleted_at
+       FROM users
+       WHERE email = 'instalador@email.com';
+## En los mensajes retornado esta:
+## Usuario inactivo  --> users.activo = 0       
+## Usuario o Clave incorrecta.  (al ingresar la clave o el usuario incorrecto)
+
+## Roles y permisos del usuario
+SELECT  r.name AS name_role, r.display_name AS des_role,
+       p.name AS name_permission
+FROM roles AS r
+INNER JOIN permission_role AS pr
+ON pr.role_id = r.id
+INNER JOIN permissions AS p 
+ON pr.permission_id = p.id 
+INNER JOIN role_user AS rl
+ON r.id = rl.user_id
+INNER JOIN users 
+ON users.id = rl.user_id
+WHERE users.id = '1';    
+
+
+## Dependiendo de la configuarion activa mostrara los horarios
+SELECT a.id AS syn_conf_id,a.NAME AS tipo_sync, a.activo,b.`hora_sync`
+FROM `sync_config` AS a
+LEFT JOIN   sync_horas AS b
+ON  a.`id` = b.`sync_id`
+WHERE a.activo = 1;
+
+Queria retornar la informacion de estas tres consultas en un solo QUERY, pero se me hizo
+dificil hacerlo en un solo QUERY.
+#####################################################################################################
+
 LOG OUT
 Envia 
 -          Token
@@ -65,14 +100,17 @@ WS 3. -  Clientes. (CRUD)
                 Para realizar cualquiera de estas acciones debe enviarse el token de autenticacion
                 CONSULTA
                 Envia
-                                token ,Codigo de vendedor,co_sucursal,activo, last_sync.
+                                token ,clientes.co_vendedor, last_sync
 
                 Recibe
-                                Clientes.
+                    SELECT co_cli,co_vendedor,co_zona,co_segmento,tipo,rif,activo,email,descripcion,direccion,
+		            direc_entre,telefono,created_at,updated_at,deleted_at
+                    FROM clientes 
+                    WHERE clientes.co_vendedor ='RM';
+                    
                 NUEVO REGISTRO
-                Envia
-                               
-                                token ,Codigo de vendedor,co_sucursal,activo...
+                Envia           
+                                token ,co_vendedor,co_sucursal,activo, last_sync
                 Recibe
                                 De ser satisfactoria.
                                 Id del nuevo usuario, mensaje.
@@ -80,13 +118,15 @@ WS 3. -  Clientes. (CRUD)
                                 Mensaje de error.
                 ACTUALIZACION
                 Envia    
-                                token ,Codigo de vendedor,co_sucursal,activo, last_sync.
+                                token ,co_vendedor,co_sucursal,activo, last_sync. campos a actualizar
                 Recibe
-                                Clientes.
+                                Mensajes de validacion o actualizacion satisfactoria.
  
                 BORRAR CLIENTE
-Envia     
+                Envia     
                                 token ,Id del nuevo usuario, co_usuario
+                                En esta parte solo inactiva clientes, actualizando el campo activo = 1
+                                y el campo deleted_at.
                 Recibe
                                 De ser satisfactoria.
                                 Mensaje de haberse completado la accion.
