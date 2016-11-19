@@ -42,7 +42,7 @@ CREATE TABLE `clientes` (
 
 /*Data for the table `clientes` */
 
-insert  into `clientes`(`id`,`co_cli`,`co_vendedor`,`co_zona`,`co_segmento`,`tipo`,`rif`,`activo`,`email`,`descripcion`,`direccion`,`direc_entre`,`telefono`,`created_at`,`updated_at`,`deleted_at`) values (1,'I02365    ','RM','01',NULL,'G','J1122334455','','email@email.com','DESCRIPCION DEL CLIENTE','SIN DIRECCION','SIN DIRECCION','02431234567','2016-10-30 17:31:32','0000-00-00 00:00:00','0000-00-00 00:00:00'),(2,'I02366','JX','02','',NULL,'J123456789','','jonnathanx@gmail.com','CLIENTE DE PRUEBA 01','SIN DIRECCION FISCAL',NULL,'02121234567','2016-10-30 17:31:34','0000-00-00 00:00:00','0000-00-00 00:00:00'),(3,'I02367','HR','03','01','G','J987654321','','email@test.com','CLIENTE SIN DESCRIPCION','SIN DIRECCION',NULL,'02351234567','2016-10-30 17:32:25','0000-00-00 00:00:00','0000-00-00 00:00:00'),(4,'I02368','JX','02',NULL,'J','J879654321','','sim@mail.com','CLIENTE DE PRUEBA','SIN DIRECCION','SIN DIRECCION','02351234567','2016-10-30 17:32:33','0000-00-00 00:00:00','0000-00-00 00:00:00'),(5,'I02369','HR','03',NULL,NULL,'V18780176','','prueba@mail.com','CLIENTE DE PRUEBA','SIN DIRECCION',NULL,'02351234567','2016-10-30 17:34:45','0000-00-00 00:00:00','0000-00-00 00:00:00');
+insert  into `clientes`(`id`,`co_cli`,`co_vendedor`,`co_zona`,`co_segmento`,`tipo`,`rif`,`activo`,`email`,`descripcion`,`direccion`,`direc_entre`,`telefono`,`created_at`,`updated_at`,`deleted_at`) values (1,'I02365    ','RM','01',NULL,'G','J1122334455','','email@email.com','DESCRIPCION DEL CLIENTE','SIN DIRECCION','SIN DIRECCION','02431234567','2016-10-30 17:31:32','0000-00-00 00:00:00','0000-00-00 00:00:00'),(2,'I02366','JX','02','',NULL,'J123456789','','jonnathanx@gmail.com','CLIENTE DE PRUEBA 01','SIN DIRECCION FISCAL',NULL,'02121234567','2016-10-30 17:31:34','0000-00-00 00:00:00','0000-00-00 00:00:00'),(3,'I02367','RM','03','01','G','J987654321','','email@test.com','CLIENTE SIN DESCRIPCION','SIN DIRECCION',NULL,'02351234567','2016-10-30 17:32:25','0000-00-00 00:00:00','0000-00-00 00:00:00'),(4,'I02368','JX','02',NULL,'J','J879654321','','sim@mail.com','CLIENTE DE PRUEBA','SIN DIRECCION','SIN DIRECCION','02351234567','2016-10-30 17:32:33','0000-00-00 00:00:00','0000-00-00 00:00:00'),(5,'I02369','RM','03',NULL,NULL,'V18780176','','prueba@mail.com','CLIENTE DE PRUEBA','SIN DIRECCION',NULL,'02351234567','2016-10-30 17:34:45','0000-00-00 00:00:00','0000-00-00 00:00:00');
 
 /*Table structure for table `migrations` */
 
@@ -205,7 +205,26 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`name`,`email`,`admin`,`co_sucu`,`co_vendedor`,`nombre`,`apellido`,`activo`,`last_sync`,`password`,`security_code`,`remember_token`,`created_at`,`updated_at`,`deleted_at`) values (1,'instalador','instalador@email.com',1,NULL,'ADMIN','Instalador','De Prueba',1,'0000-00-00 00:00:00','$2y$10$b3x/yDJx8X4HEatr6OgaDOZ8wDaaP4wfwJ0L0rrBkk5oEAFQjTWHK',NULL,NULL,'2016-11-16 22:30:55','0000-00-00 00:00:00','0000-00-00 00:00:00'),(2,'tester','tester@email.com',0,NULL,NULL,'Tester','De Prueba',0,'0000-00-00 00:00:00','$2y$10$b3x/yDJx8X4HEatr6OgaDOZ8wDaaP4wfwJ0L0rrBkk5oEAFQjTWHK',NULL,NULL,'2016-11-16 22:34:50','0000-00-00 00:00:00','0000-00-00 00:00:00');
+insert  into `users`(`id`,`name`,`email`,`admin`,`co_sucu`,`co_vendedor`,`nombre`,`apellido`,`activo`,`last_sync`,`password`,`security_code`,`remember_token`,`created_at`,`updated_at`,`deleted_at`) values (1,'instalador','instalador@email.com',1,NULL,'ADMIN','Instalador','De Prueba',1,'0000-00-00 00:00:00','$2y$10$b3x/yDJx8X4HEatr6OgaDOZ8wDaaP4wfwJ0L0rrBkk5oEAFQjTWHK',NULL,NULL,'2016-11-16 22:30:55','0000-00-00 00:00:00','0000-00-00 00:00:00'),(2,'tester','tester@email.com',0,NULL,'RM','Tester','De Prueba',0,'0000-00-00 00:00:00','$2y$10$b3x/yDJx8X4HEatr6OgaDOZ8wDaaP4wfwJ0L0rrBkk5oEAFQjTWHK',NULL,NULL,'2016-11-16 22:34:50','0000-00-00 00:00:00','0000-00-00 00:00:00');
+
+/*Table structure for table `history_itemvalue_pivot_pretty` */
+
+DROP TABLE IF EXISTS `history_itemvalue_pivot_pretty`;
+
+/*!50001 DROP VIEW IF EXISTS `history_itemvalue_pivot_pretty` */;
+/*!50001 DROP TABLE IF EXISTS `history_itemvalue_pivot_pretty` */;
+
+/*!50001 CREATE TABLE  `history_itemvalue_pivot_pretty`(
+ `A` varchar(255) ,
+ `B` varchar(255) 
+)*/;
+
+/*View structure for view history_itemvalue_pivot_pretty */
+
+/*!50001 DROP TABLE IF EXISTS `history_itemvalue_pivot_pretty` */;
+/*!50001 DROP VIEW IF EXISTS `history_itemvalue_pivot_pretty` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `history_itemvalue_pivot_pretty` AS (select coalesce(`r`.`display_name`,0) AS `A`,coalesce(`p`.`name`,0) AS `B` from ((`roles` `r` join `permission_role` `pr` on((`pr`.`role_id` = `r`.`id`))) join `permissions` `p` on((`pr`.`permission_id` = `p`.`id`)))) */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
