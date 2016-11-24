@@ -36,6 +36,21 @@ SELECT id AS user_id ,NAME,email,admin,co_sucu,co_vendedor,nombre,apellido,activ
 ## Usuario o Clave incorrecta.  (al ingresar la clave o el usuario incorrecto)
 
 ## Roles y permisos del usuario
+## En esta consulta podras ver los permisos de cada usuario
+## WHERE users.id = '1';    es un adminustrador
+## WHERE users.id = '2';    es un usuario Vendedor	y solo puede 
+##Crear 
+##Leer
+##Actualizar
+
+##name_role	des_role	name_permission
+
+##vend	Vendedor	newcli
+
+##vend	Vendedor	readcli
+##vend	Vendedor	upcli
+
+
 SELECT  r.name AS name_role, r.display_name AS des_role,
        p.name AS name_permission
 FROM roles AS r
@@ -107,6 +122,11 @@ WS 3. -  Clientes. (CRUD)
 		            direc_entre,telefono,created_at,updated_at,deleted_at
                     FROM clientes 
                     WHERE clientes.co_vendedor ='RM';
+
+		    En este where
+		    WHERE clientes.co_vendedor =users.co_vendedor;
+
+					
                     
                 NUEVO REGISTRO
                 Envia           
