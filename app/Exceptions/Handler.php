@@ -8,6 +8,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 class Handler extends ExceptionHandler
 {
@@ -45,6 +47,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        
+        if ($exception instanceof TokenExpiredException) {
+           return response()->json(['cod' => 'WS003'  , 'msg'=>'Token is expirado'], 401);
+       }
+
+       if ($exception instanceof JWTException) {
+           return response()->json(['cod' => 'WS003'  , 'msg'=>'Token is Invalid'], 401);
+       }
+
+        
         return parent::render($request, $e);
     }
 }

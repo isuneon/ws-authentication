@@ -16,11 +16,11 @@ Route::get('/', function () {
 });
 
 
-Route::group(['middleware' => ['api','cors'],'prefix' => 'api'], function () {
+Route::group(['middleware' => ['cors','api'],'prefix' => 'api'], function () {
     //Devuelve el un token en caso de el usuario existir en base de datos
     Route::post('repassword', 'APIController@repassword');
     //Envia token para resetear password
-    Route::group(['middleware' => 'jwt-auth'], function () {
+    Route::group(['middleware'=>['before'=>'jwt.auth']], function () {
     	Route::post('set_new_password', 'APIController@set_new_password');
     });
 });

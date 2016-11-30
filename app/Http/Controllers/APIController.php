@@ -38,25 +38,33 @@ class APIController extends Controller
     public function repassword(Request $request)
     {
     	$input = $request->all();
-        
+        // try{
+
+
         $user = User::where('email','=',$input['email'])->get()->first();
+
+       
         $user->security_code = $this->getRandomCode();
         $user->save();
 
         $data = array(
-            'codigo' => $user->security_code
+            'codigo' => $user->security_code,
+            'email' => $user->email
         );
 
     	if (!$token = JWTAuth::fromUser($user)) {
-            return response()->json(['result' => 'wrong email or password.']);
+            return response()->json(['cod' => 'WS002', 'msg'=>trans('passwords.token')]);
         }
 
-        Mail::send('welcome', $data, function($msj){
-            $msj->subject("Restaurar Contraseña");
-            $msj->to("luis92pe@gmail.com");
+        Mail::send('welcome', $data, function($msj) use ($data){
+            $msj->subject(trans('passwords.code'));
+            $msj->to($data['email']);
         });
+        return response()->json(['cod' => 'WS001', 'msg'=>trans('passwords.sent'), 'data' => ['token' => $token, 'user' => $user]]);
 
-        return response()->json(['token' => $token]);
+        // }catch(\Exception $e){
+        //     return response()->json(['cod' => 'WS003', 'msg'=>trans('passwords.user')]);
+        // }
     }
     
     public function set_new_password(Request $request)
@@ -65,15 +73,14 @@ class APIController extends Controller
     	$user = JWTAuth::toUser($input['token']);
     	
         if($user->security_code != $input['codigo'])
-            return response()->json(['result' => 'codigo malo']);
+            return response()->json(['cod' => 'WS001', 'msg'=>trans('passwords.codefailed')]);
 
         $user = User::find($user->id);
         $user->password = Hash::make($input['password']);
         $user->security_code = null;
         $user->save();
 
-       
-        return response()->json(['result' => $user]);
+        return response()->json(['cod' => 'WS001', 'msg'=>trans('passwords.reset')]);
 
     }
 }
