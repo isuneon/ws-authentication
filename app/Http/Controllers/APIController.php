@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\User;
 use Hash;
 use JWTAuth;
-
 use Mail;
+use Validator;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -37,43 +37,66 @@ class APIController extends Controller
     
     public function repassword(Request $request)
     {
-    	$input = $request->all();
-        // try{
+    	
 
+        $validator = Validator::make($request->all(), [
+            'email' => 'email'
+        ]);
 
-        $user = User::where('email','=',$input['email'])->get()->first();
-
-       
-        $user->security_code = $this->getRandomCode();
-        $user->save();
-
-        $data = array(
-            'codigo' => $user->security_code,
-            'email' => $user->email
-        );
-
-    	if (!$token = JWTAuth::fromUser($user)) {
-            return response()->json(['cod' => 'WS002', 'msg'=>trans('passwords.token')]);
+        if ($validator->fails()) {
+            return response()->json(['cod' => 'WS003', 'msg'=>trans('passwords.email'), 'validation'=>$validator->errors()]);
         }
 
-        Mail::send('welcome', $data, function($msj) use ($data){
-            $msj->subject(trans('passwords.code'));
-            $msj->to($data['email']);
-        });
-        return response()->json(['cod' => 'WS001', 'msg'=>trans('passwords.sent'), 'data' => ['token' => $token, 'user' => $user]]);
 
-        // }catch(\Exception $e){
-        //     return response()->json(['cod' => 'WS003', 'msg'=>trans('passwords.user')]);
-        // }
+        try{
+
+            $input = $request->all();
+
+            $user = User::where('email','=',$input['email'])->get()->first();
+            $user->security_code = $this->getRandomCode();
+            $user->save();
+
+            $data = array(
+                'codigo' => $user->security_code,
+                'email' => $user->email
+            );
+
+            if (!$token = JWTAuth::fromUser($user)) {
+                return response()->json(['cod' => 'WS002', 'msg'=>trans('passwords.token')]);
+            }
+
+            Mail::send('welcome', $data, function($msj) use ($data){
+                $msj->subject(trans('passwords.code'));
+                $msj->to($data['email']);
+            });
+            return response()->json(['cod' => 'WS001', 'msg'=>trans('passwords.sent'), 'data' => ['token' => $token]]);
+
+        }catch(\Exception $e){
+            return response()->json(['cod' => 'WS003', 'msg'=>trans('passwords.user')]);
+        }
     }
     
     public function set_new_password(Request $request)
     {
-    	$input = $request->all();
+       
+        $validator = Validator::make($request->all(), [
+            'password' => 'required',
+            'token'    => 'required',
+            'codigo'   => 'required',
+        ],[
+            'required' => 'El campo :attribute es requerido.',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['cod' => 'WS003', 'msg'=>trans('passwords.email'), 'validation'=>$validator->errors()]);
+        }
+
+
+        $input = $request->all();
     	$user = JWTAuth::toUser($input['token']);
-    	
+
         if($user->security_code != $input['codigo'])
-            return response()->json(['cod' => 'WS001', 'msg'=>trans('passwords.codefailed')]);
+            return response()->json(['cod' => 'WS002', 'msg'=>trans('passwords.codefailed')]);
 
         $user = User::find($user->id);
         $user->password = Hash::make($input['password']);

@@ -22,5 +22,6 @@ return [
     'user' => "No podemos encontrar un usuario con esa dirección de correo electrónico.",
     'code' => "Ha solicitado restablecer su contraseña, este es su código de verificación",
     'codefailed' => "El código de verificación es invalido",
+    'email' => "Formato del correo es invalido"
 
 ];
