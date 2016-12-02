@@ -58,7 +58,8 @@ class APIController extends Controller
 
             $data = array(
                 'codigo' => $user->security_code,
-                'email' => $user->email
+                'email' => $user->email,
+                'nombre' => $user->nombre.' '.$user->apellido
             );
 
             if (!$token = JWTAuth::fromUser($user)) {
