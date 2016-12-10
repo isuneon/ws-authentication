@@ -27,6 +27,7 @@ Route::group(['middleware' => ['api','cors'],'prefix' => 'api'], function () {
     Route::post('register', 'APIController@register');
 
     Route::post('login', 'APIController@login');
+    Route::post('logout', 'APIController@logout');
 
     Route::group(['middleware' => 'jwt-auth'], function () {
 

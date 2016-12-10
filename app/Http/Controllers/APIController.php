@@ -30,6 +30,20 @@ class APIController extends Controller
         $user = JWTAuth::toUser($token);
         return response()->json(['cod' => 'WS001', 'msg'=>'Autenticado.', 'data' => ['token' => $token, 'user' => $user]]);
     }
+    public function logout(Request $request)
+    {
+    	$input = $request->all();
+        try{
+            if (JWTAuth::invalidate($input['token'])) {
+                return response()->json(['cod' => 'WS001'  , 'msg'=>'Sesion Caducada']);
+            }
+                return response()->json(['cod' => 'WS002'  , 'msg'=>'Error al cerrar sesion']);
+
+        }catch(){
+                return response()->json(['cod' => 'WS002'  , 'msg'=>'Error al cerrar sesion']);
+
+        }
+    }
     
     // public function get_user_details(Request $request)
     // {
