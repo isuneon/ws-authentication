@@ -17,6 +17,6 @@ Route::get('/', function () {
 
 
 Route::group(['prefix' => 'api'], function() {
-    Route::get('/user', 'APIController@index');
+    Route::post('/user', 'APIController@index');
     // Route::get('/manage', ['middleware' => ['permission:manage-admins'], 'uses' => 'AdminController@manageAdmins']);
 });

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\User;
 
 class APIController extends Controller
 {
@@ -14,9 +15,9 @@ class APIController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
@@ -48,7 +49,7 @@ class APIController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
