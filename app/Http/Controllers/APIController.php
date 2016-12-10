@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
+use Validator;
 
 class APIController extends Controller
 {
@@ -17,7 +18,15 @@ class APIController extends Controller
      */
     public function index(Request $request)
     {
-        dd($request);
+        // dd($request);
+        $validator = Validator::make($request->all(), [
+            'token' => 'required'
+        ]);
+
+
+        if ($validator->fails()) {
+            return response()->json(['cod' => 'WS003', 'msg'=>"Error con los parametros", 'validation'=>$validator->errors()]);
+        }
     }
 
     /**
