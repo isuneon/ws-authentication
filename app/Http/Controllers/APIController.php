@@ -39,8 +39,8 @@ class APIController extends Controller
             }
                 return response()->json(['cod' => 'WS002'  , 'msg'=>'Error al cerrar sesion']);
 
-        }catch(){
-                return response()->json(['cod' => 'WS002'  , 'msg'=>'Error al cerrar sesion']);
+        }catch(\Exception $e){
+                return response()->json(['cod' => 'WS003'  , 'msg'=>'Token no existe']);
 
         }
     }
