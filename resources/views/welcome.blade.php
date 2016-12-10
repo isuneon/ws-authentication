@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -12,7 +16,9 @@
 </tr>
 </tbody></table>
 </div>
-<div class="m_-3531749250598430426block" style="box-sizing:border-box;width:100%;margin-bottom:30px;background:#ffffff;border:1px solid #f0f0f0"><table style="box-sizing:border-box;width:100%;border-spacing:0;border-collapse:separate!important" width="100%"><tbody><tr><td class="m_-3531749250598430426wrapper" style="box-sizing:border-box;font-family:'Open Sans','Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;font-size:16px;vertical-align:top;padding:30px" valign="top"><table style="box-sizing:border-box;width:100%;border-spacing:0;border-collapse:separate!important" width="100%"><tbody><tr><td style="box-sizing:border-box;padding:0;font-family:'Open Sans','Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;font-size:16px;vertical-align:top" valign="top"><div class="m_-3531749250598430426mktEditable" id="m_-3531749250598430426block-one" style="box-sizing:border-box"><h2 style="margin:0;margin-bottom:30px;font-family:'Open Sans','Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;font-weight:300;line-height:1.5;font-size:24px;color:#294661!important">Hola {{$usuario}},</h2>
+
+<div class="m_-3531749250598430426block" style="box-sizing:border-box;width:100%;margin-bottom:30px;background:#ffffff;border:1px solid #f0f0f0"><table style="box-sizing:border-box;width:100%;border-spacing:0;border-collapse:separate!important" width="100%"><tbody><tr><td class="m_-3531749250598430426wrapper" style="box-sizing:border-box;font-family:'Open Sans','Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;font-size:16px;vertical-align:top;padding:30px" valign="top"><table style="box-sizing:border-box;width:100%;border-spacing:0;border-collapse:separate!important" width="100%"><tbody><tr><td style="box-sizing:border-box;padding:0;font-family:'Open Sans','Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;font-size:16px;vertical-align:top" valign="top"><div class="m_-3531749250598430426mktEditable" id="m_-3531749250598430426block-one" style="box-sizing:border-box"><h2 style="margin:0;margin-bottom:30px;font-family:'Open Sans','Helvetica Neue','Helvetica',Helvetica,Arial,sans-serif;font-weight:300;line-height:1.5;font-size:24px;color:#294661!important">Hola {{$nombre}},</h2>
+
 
 
 
