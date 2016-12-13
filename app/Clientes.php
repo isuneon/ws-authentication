@@ -8,7 +8,7 @@ class Clientes extends Model
 {
     protected $table = 'clientes';
 
-
+    protected $primaryKey = 'co_cli';
 
     protected $fillable = [
         'co_cli',
