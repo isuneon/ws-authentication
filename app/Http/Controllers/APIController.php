@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use App\User;
 use Hash;
+use Auth;
 use JWTAuth;
 
 class APIController extends Controller
@@ -20,15 +21,22 @@ class APIController extends Controller
     	User::create($input);
         return response()->json(['result'=>true]);
     }
+
     
     public function login(Request $request)
     {
     	$input = $request->all();
-    	if (!$token = JWTAuth::attempt($input)) {
-            return response()->json(['cod' => 'V002'  , 'msg'=>'Email o Clave es incorrecto.']);
+
+        if (Auth::attempt($input)) {
+            if (!$token = JWTAuth::attempt($input)) {
+                return response()->json(['cod' => 'V002'  , 'msg'=>'Email o Clave es incorrecto.']);
+            }
+            $user = JWTAuth::toUser($token);
+            return response()->json(['cod' => 'WS001', 'msg'=>'Autenticado.', 'data' => ['token' => $token, 'user' => $user]]);
         }
-        $user = JWTAuth::toUser($token);
-        return response()->json(['cod' => 'WS001', 'msg'=>'Autenticado.', 'data' => ['token' => $token, 'user' => $user]]);
+        return response()->json(['cod' => 'V002'  , 'msg'=>'Email o Clave es incorrecto.']);
+
+
     }
     public function logout(Request $request)
     {
