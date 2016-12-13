@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/login', 'APIController@login' );
 Route::get('/logout', 'APIController@logout' );
 
@@ -21,4 +22,5 @@ Route::group(['prefix' => 'api'], function() {
     Route::post('/user/update/{id}', ['middleware' => ['role:admin|vend'], 'uses' => 'APIController@index']);
     Route::post('/user/delete/{id}', ['middleware' => ['role:admin|vend'], 'uses' => 'APIController@index']);
     // Route::get('/manage', ['middleware' => ['permission:manage-admins'], 'uses' => 'AdminController@manageAdmins']);
+
 });
