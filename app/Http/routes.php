@@ -16,7 +16,10 @@ Route::get('/', function () {
 });
 
 
-Route::group(['prefix' => 'api', 'middleware' => ['role:vend']], function() {
-    Route::post('/user', 'APIController@index');
+Route::group(['prefix' => 'api'], function() {
+    Route::post('/user', ['middleware' => ['role:admin'], 'uses' => 'APIController@index']);
+    Route::post('/user/store', 'APIController@store');
+    Route::post('/user/update/{id}', 'APIController@update');
+    Route::post('/user/delete/{id}', 'APIController@destroy');
     // Route::get('/manage', ['middleware' => ['permission:manage-admins'], 'uses' => 'AdminController@manageAdmins']);
 });
