@@ -11,15 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/login', 'APIController@login' );
+Route::get('/logout', 'APIController@logout' );
 
 
 Route::group(['prefix' => 'api'], function() {
-    Route::post('/user', ['middleware' => ['role:admin'], 'uses' => 'APIController@index']);
-    Route::post('/user/store', 'APIController@store');
-    Route::post('/user/update/{id}', 'APIController@update');
-    Route::post('/user/delete/{id}', 'APIController@destroy');
+    Route::post('/user', ['middleware' => ['role:admin|vend'], 'uses' => 'APIController@index']);
+    Route::post('/user/store', ['middleware' => ['role:admin|vend'], 'uses' => 'APIController@index']);
+    Route::post('/user/update/{id}', ['middleware' => ['role:admin|vend'], 'uses' => 'APIController@index']);
+    Route::post('/user/delete/{id}', ['middleware' => ['role:admin|vend'], 'uses' => 'APIController@index']);
     // Route::get('/manage', ['middleware' => ['permission:manage-admins'], 'uses' => 'AdminController@manageAdmins']);
 });

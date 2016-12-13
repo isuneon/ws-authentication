@@ -33,6 +33,11 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
+
+        if($e->getStatusCode() == 403){
+            return "Disculpe no tiene rol para esta funcionalidad";
+        }
+
         parent::report($e);
     }
 
@@ -45,6 +50,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if($e->getStatusCode() == 403){
+            return response('No posee permisos', 403);
+        }
         return parent::render($request, $e);
     }
 }

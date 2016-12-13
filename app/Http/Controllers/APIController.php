@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Clientes;
 use Validator;
+use Auth;
 
 class APIController extends Controller
 {
@@ -36,6 +37,23 @@ class APIController extends Controller
 
     }
 
+    public function login(Request $request)
+    {        
+    	 $input = $request->all();
+
+        if (Auth::attempt($input)) {
+            return "login";
+        }
+
+        return "usuario no existe";
+    }
+    public function logout(Request $request)
+    {        
+    	Auth::logout();
+
+        return "Cierra sesion";
+    }
+
   
 
     /**
@@ -57,7 +75,7 @@ class APIController extends Controller
             return response()->json(['cod' => 'WS003', 'msg'=>"Error con los parametros", 'validation'=>$validator->errors()]);
         }
 
-         $user = Clientes::create([
+        $user = Clientes::create([
 				'co_cli'	=> 2,
 				'co_vendedor'	=> $request->co_vendedor,
         ]);
@@ -75,7 +93,16 @@ class APIController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = Clientes::find($id);
+
+        if(!$user){
+            return response()->json(['cod' => 'WS002', 'msg'=>"Usuario no encontrado"]);
+        }
+
+
+
+        $user->save();
+        return response()->json(['cod' => 'WS001', 'msg'=>"Usuario Actualizado"]);
     }
 
     /**
@@ -86,6 +113,8 @@ class APIController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = Clientes::find($id);
+
+        $user->delete();
     }
 }
