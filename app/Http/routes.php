@@ -18,9 +18,9 @@ Route::get('/logout', 'APIController@logout' );
 
 Route::group(['prefix' => 'api'], function() {
     Route::post('/user', ['middleware' => ['role:admin|vend'], 'uses' => 'APIController@index']);
-    Route::post('/user/store', ['middleware' => ['role:admin|vend'], 'uses' => 'APIController@index']);
-    Route::post('/user/update/{id}', ['middleware' => ['role:admin|vend'], 'uses' => 'APIController@index']);
-    Route::post('/user/delete/{id}', ['middleware' => ['role:admin|vend'], 'uses' => 'APIController@index']);
+    Route::post('/user/store', ['middleware' => ['role:admin|vend'], 'uses' => 'APIController@store']);
+    Route::post('/user/update/{id}', ['middleware' => ['role:admin'], 'uses' => 'APIController@update']);
+    Route::post('/user/delete/{id}', ['middleware' => ['role:admin|vend'], 'uses' => 'APIController@delete']);
     // Route::get('/manage', ['middleware' => ['permission:manage-admins'], 'uses' => 'AdminController@manageAdmins']);
 
 });

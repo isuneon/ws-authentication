@@ -33,10 +33,10 @@ class APIController extends Controller
             return response()->json(['cod' => 'WS003', 'msg'=>"Error con los parametros", 'validation'=>$validator->errors()]);
         }
 
+        $data = Clientes::where('co_vendedor', '=', $request->all()['co_vendedor'])->get();
 
 
-        return Clientes::where('co_vendedor', '=', $request->all()['co_vendedor'])->get();
-
+        return response()->json(['cod' => 'WS001', 'msg'=>"Clientes listados", 'data' => $data, 'validation'=>$validator->errors()]);
 
     }
 
@@ -70,7 +70,16 @@ class APIController extends Controller
         $validator = Validator::make($request->all(), [
             'token' => 'required',
             'co_vendedor' => 'required',
-            'co_sucursal' => 'required'
+            'co_sucursal' => 'required',
+            'rif' => 'required | unique:clientes',
+            'co_segmento' => 'required',
+            'tipo' => 'required',
+            'activo' => 'required',
+            'email' => 'required | email',
+            'descripcion' => 'required',
+            'direccion' => 'required',
+            'direc_entre' => 'required',
+            'telefono' => 'required | integer'
         ]);
 
 
@@ -79,11 +88,26 @@ class APIController extends Controller
         }
 
         $user = Clientes::create([
-				'co_cli'	=> 2,
 				'co_vendedor'	=> $request->co_vendedor,
+                'co_zona' => $request->co_zona,
+                'rif' => $request->rif,
+                'co_segmento' => $request->co_segmento,
+                'tipo' => $request->tipo,
+                'activo' => $request->activo,
+                'email' => $request->email,
+                'descripcion' => $request->descripcion,
+                'direccion' => $request->direccion,
+                'direc_entre' => $request->direc_entre,
+                'telefono' => $request->telefono
+                
         ]);
 
-        return Clientes::where('co_vendedor', '=', $request->all()['co_vendedor'])->get();
+        if($user){
+
+            return response()->json(['cod' => 'WS001', 'msg'=>"Cliente creado", 'validation'=>$validator->errors()]);
+        }
+            return response()->json(['cod' => 'WS002', 'msg'=>"Error al crear el cliente", 'validation'=>$validator->errors()]);
+
     }
     
 
@@ -96,16 +120,52 @@ class APIController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = Clientes::find($id);
 
-        if(!$user){
-            return response()->json(['cod' => 'WS002', 'msg'=>"Usuario no encontrado"]);
+        $validator = Validator::make($request->all(), [
+            'token' => 'required',
+            'co_vendedor' => 'required',
+            'co_sucursal' => 'required',
+            'rif' => 'required | unique:clientes',
+            'co_segmento' => 'required',
+            'tipo' => 'required',
+            'activo' => 'required',
+            'email' => 'required | email',
+            'descripcion' => 'required',
+            'direccion' => 'required',
+            'direc_entre' => 'required',
+            'telefono' => 'required | integer'
+        ]);
+
+
+        if ($validator->fails()) {
+            return response()->json(['cod' => 'WS003', 'msg'=>"Error con los parametros", 'validation'=>$validator->errors()]);
         }
 
+        try{
+            $user = Clientes::find($id);
 
+            if(!$user){
+                return response()->json(['cod' => 'WS002', 'msg'=>"Usuario no encontrado"]);
+            }
 
-        $user->save();
-        return response()->json(['cod' => 'WS001', 'msg'=>"Usuario Actualizado"]);
+            $user->co_vendedor = $request->co_vendedor;
+            $user->co_zona = $request->co_zona;
+            $user->co_segmento = $request->co_segmento;
+            $user->tipo = $request->tipo;
+            $user->activo = $request->activo;
+            $user->email = $request->email;
+            $user->descripcion = $request->descripcion;
+            $user->direccion = $request->direccion;
+            $user->direc_entre = $request->direc_entre;
+            $user->telefono = $request->telefono;
+
+            $user->save();
+            return response()->json(['cod' => 'WS001', 'msg'=>"Usuario Actualizado"]);
+
+        }catch(\Exception $e){
+            return response()->json(['cod' => 'WS002', 'msg'=>"No se puede actualizar el usuario"]);
+
+        }
     }
 
     /**
