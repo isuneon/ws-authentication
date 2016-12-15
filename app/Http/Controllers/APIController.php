@@ -46,7 +46,7 @@ class APIController extends Controller
 
 
         if ($validator->fails()) {
-            return response()->json(['cod' => 'WS003', 'msg'=>trans('passwords.email'), 'validation'=>$validator->errors()]);
+            return response()->json(['cod' => 'WS003', 'subCod' => 403, 'msg'=>trans('passwords.email'),'data'=>null, 'validation'=> ['cod' => '', 'subcod' => '', "msg" => '', "erros"=>$validator->errors()]]);
         }
 
 
@@ -65,6 +65,7 @@ class APIController extends Controller
             );
 
             if (!$token = JWTAuth::fromUser($user)) {
+                
                 return response()->json(['cod' => 'WS002', 'msg'=>trans('passwords.token')]);
             }
 
@@ -72,10 +73,12 @@ class APIController extends Controller
                 $msj->subject(trans('passwords.code'));
                 $msj->to($data['email']);
             });
-            return response()->json(['cod' => 'WS001', 'msg'=>trans('passwords.sent'), 'data' => ['token' => $token]]);
+            
+            return response()->json(['cod' => 'WS001', 'subCod' => 200, 'msg'=>trans('passwords.sent'),'data'=>['token' => $token], 'validation'=> ['cod' => 'V001', 'subcod' => 200, "msg" => 'Validaciones correctas', "erros"=>$validator->errors()]]);
 
         }catch(\Exception $e){
-            return response()->json(['cod' => 'WS003', 'msg'=>trans('passwords.user')]);
+            
+            return response()->json(['cod' => 'WS003', 'subCod' => 500, 'msg'=>trans('passwords.user'),'data'=>null, 'validation'=> ['cod' => 'V001', 'subcod' => 200, "msg" => 'Validaciones correctas', "erros"=>$validator->errors()]]);
         }
     }
     
