@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Clientes;
 use Validator;
 use Auth;
+use DB;
 
 class APIController extends Controller
 {
@@ -33,7 +34,7 @@ class APIController extends Controller
             return response()->json(['cod' => 'WS003', 'msg'=>"Error con los parametros", 'validation'=>$validator->errors()]);
         }
 
-        $data = Clientes::all();
+        $data = DB::table('clientes')->where('co_vendedor', '=', $request->co_vendedor)->get();
 
 
         return response()->json(['cod' => 'WS001', 'msg'=>"Clientes listados", 'data' => $data, 'validation'=>$validator->errors()]);
@@ -150,12 +151,12 @@ class APIController extends Controller
         }
 
         try{
-            $user = Clientes::find((int) $id);
-
+            $user = DB::table('clientes')->where('id', '=', $id)->first();
+          
             if(!$user){
                 return response()->json(['cod' => 'WS002', 'msg'=>"Usuario no encontrado"]);
             }
-
+          
             $user->co_vendedor = $request->co_vendedor;
             $user->co_zona = $request->co_zona;
             $user->co_segmento = $request->co_segmento;
@@ -168,7 +169,8 @@ class APIController extends Controller
             $user->telefono = $request->telefono;
             $user->updated_user = $userAuth->co_vendedor;
 
-            $user->save();
+            DB::table('clientes')->where('id', '=', $id)->update(get_object_vars($user));
+            
             return response()->json(['cod' => 'WS001', 'msg'=>"Usuario Actualizado"]);
 
         }catch(\Exception $e){
