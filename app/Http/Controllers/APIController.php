@@ -35,9 +35,9 @@ class APIController extends Controller
         }
 
 
-        $data = Clientes::where('co_vendedor', '=', $request->all()['co_vendedor'])->get();
+        // $data = Clientes::where('co_vendedor', '=', $request->all()['co_vendedor'])->get();
 
-        $data = DB::table('clientes')->where('co_vendedor', '=', $request->co_vendedor)->get();
+       $data = DB::table('clientes')->where('co_vendedor', '=', $request->co_vendedor)->get();
 
 
 
@@ -220,8 +220,8 @@ class APIController extends Controller
             try{
                 $user = DB::table('clientes')->where('id', '=', $id)->first();
                 if($user){
-                    $user->activo = false; // Se cambia el estatus a 0 de inactivo
-                    DB::table('clientes')->where('id', '=', $id)->update(get_object_vars($user));
+                    $user->activo = chr(0); // Se cambia el estatus a 0 de inactivo
+                    (DB::table('clientes')->where('id', '=', $id)->update(get_object_vars($user)));
                     // DB::table('clientes')->where('id', '=', $id)->delete();
                     return response()->json(['cod' => 'WS001', 'msg'=>"Cliente Desactivado"]);
                 }else{
