@@ -11,6 +11,7 @@ use App\Clientes;
 use Validator;
 use Auth;
 use DB;
+use JWTAuth;
 
 class APIController extends Controller
 {
@@ -22,6 +23,11 @@ class APIController extends Controller
     public function index(Request $request)
     {
         // dd($request);
+
+        $user = JWTAuth::toUser($request->token);
+
+        
+
         $validator = Validator::make($request->all(), [
             'token' => 'required',
             'co_vendedor' => 'required'
@@ -50,7 +56,8 @@ class APIController extends Controller
     	 $input = $request->all();
 
         if (Auth::attempt($input)) {
-            return "login";
+            $token = JWTAuth::attempt($input);
+            return "login" . $token;
         }
 
         return "usuario no existe";
