@@ -26,6 +26,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         //
 
+        // $router->model('api/user', 'App\Clientes');
+        
         parent::boot($router);
     }
 

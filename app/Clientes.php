@@ -3,12 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Clientes extends Model
 {
+    use SoftDeletes;
     protected $table = 'clientes';
 
-   
+
 
     protected $fillable = [
         'co_cli',
@@ -23,10 +25,16 @@ class Clientes extends Model
         'direccion',
         'direc_entre',
         'telefono',
-        'created_at',
-        'updated_at',
-        'deleted_at'
+        'created_user',
+        'update_user',
     ];
+
+     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at','created_at','updated_at'];
 
 
 
