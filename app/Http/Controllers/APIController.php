@@ -28,6 +28,15 @@ class APIController extends Controller
             return response()->json(['cod' => 'V002'  , 'msg'=>'Email o Clave es incorrecto.']);
         }
         $user = JWTAuth::toUser($token);
+        $rol = $user->roles;
+        // dd($user->roles);
+        foreach($user->roles as $rol){
+             dd($rol->permissions);   
+        }
+        dd($user->roles()->permissions);
+        $user['perfil'] = $user->roles;
+
+        
         return response()->json(['cod' => 'WS001', 'msg'=>'Autenticado.', 'data' => ['token' => $token, 'user' => $user]]);
     }
     public function logout(Request $request)
