@@ -105,7 +105,7 @@ class APIController extends Controller
             return response()->json(['cod' => 'WS002', 'msg'=>trans('passwords.codefailed')]);
 
         $user = User::find($user->id);
-        $user->password = Hash::make($input['password']);
+        $user->password = hash('sha256', $input['password']);
         $user->security_code = null;
         $user->save();
 
