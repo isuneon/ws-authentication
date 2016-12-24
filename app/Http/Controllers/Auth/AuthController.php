@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use Validator;
+// use Validator;
+use Illuminate\Http\Request;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use WithoutMiddleware;
 
 class AuthController extends Controller
 {
@@ -30,15 +34,15 @@ class AuthController extends Controller
      */
     protected $redirectTo = '/';
 
-    /**
-     * Create a new authentication controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
-    }
+    // /**
+    //  * Create a new authentication controller instance.
+    //  *
+    //  * @return void
+    //  */
+    // public function __construct()
+    // {
+    //     $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+    // }
 
     /**
      * Get a validator for an incoming registration request.
@@ -55,6 +59,25 @@ class AuthController extends Controller
         ]);
     }
 
+
+    public function authenticate(Request $request){
+        $credentials = $request->only('email', 'password');
+        try {
+            if(! $token = JWTAuth::attempt($credentials)){
+                return ['error' => "User credentials are not correct"];
+            }
+        }catch(JWTException $ex){
+            return ['error' => "Error desconocido"];
+        }
+        // $userData = JWTAuth::parseToken()->toUser();
+        return compact('token');
+    }
+
+
+    public function show(){
+        return JWTAuth::parseToken()->toUser();
+    }
+
     /**
      * Create a new user instance after a valid registration.
      *
@@ -66,7 +89,7 @@ class AuthController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => hash('sha256', $data['password']),
         ]);
     }
 }

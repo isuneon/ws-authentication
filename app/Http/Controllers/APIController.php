@@ -51,4 +51,5 @@ class APIController extends Controller
     // 	$user = JWTAuth::toUser($input['token']);
     //     return response()->json(['cod' => 'WS001', 'data' => ['token' => $token, 'userdata' => $user]]);
     // }
+
 }

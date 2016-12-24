@@ -11,9 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 
 
 // Route::group(['prefix' => 'api'], function () {
@@ -22,18 +23,26 @@ Route::get('/', function () {
 
 
 // Ruta API
-Route::group(['middleware' => ['api','cors'],'prefix' => 'api'], function () {
 
+Route::group(['middleware' => ['cors','api'],'prefix' => 'api'], function () {
+
+// Direcciones para el WS de login / logout
     Route::post('register', 'APIController@register');
-
     Route::post('login', 'APIController@login');
     Route::post('logout', 'APIController@logout');
-
     Route::group(['middleware' => 'jwt-auth'], function () {
-
     	Route::post('get_user_details', 'APIController@get_user_details');
 
     });
 
+
+// Direcciones para el ws de reset password
+
+    //Devuelve el un token en caso de el usuario existir en base de datos
+    Route::post('repassword', 'APIPasswordController@repassword');
+    //Envia token para resetear password
+    Route::group(['middleware'=>['before'=>'jwt.auth']], function () {
+    	Route::post('set_new_password', 'APIPasswordController@set_new_password');
+    });
 });
 
