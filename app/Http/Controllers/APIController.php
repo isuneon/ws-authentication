@@ -28,30 +28,32 @@ class APIController extends Controller
     	$input = $request->all();
 
         if (Auth::attempt($input)) {
+
+             $user = User::where('email', '=', $request->email)->where('activo', '=', 0)->count();
+            //  Validacion de usuario inactivo
+             if(!$user){
+                 return response()->json(['cod' => 'V002'  , 'msg'=>'El usuario se encuentra inactivo']);
+             }
+             //Creacion de token de usuario
             if (!$token = JWTAuth::attempt($input)) {
                 return response()->json(['cod' => 'V002'  , 'msg'=>'Email o Clave es incorrecto.']);
             }
+           
             $user = JWTAuth::toUser($token);
+           //Se obtienen los roles y permissions
+            $user->roles;
+            foreach($user->roles as $rol){
+                $rol->permissions;   
+            }
+  
             return response()->json(['cod' => 'WS001', 'msg'=>'Autenticado.', 'data' => ['token' => $token, 'user' => $user]]);
+        }else{
+            return response()->json(['cod' => 'V003'  , 'msg'=>'Email o Clave es incorrecto.']);
         }
-<<<<<<< HEAD
-        $user = JWTAuth::toUser($token);
-        $rol = $user->roles;
-        // dd($user->roles);
-        foreach($user->roles as $rol){
-             dd($rol->permissions);   
-        }
-        dd($user->roles()->permissions);
-        $user['perfil'] = $user->roles;
 
-        
-        return response()->json(['cod' => 'WS001', 'msg'=>'Autenticado.', 'data' => ['token' => $token, 'user' => $user]]);
-=======
-        return response()->json(['cod' => 'V002'  , 'msg'=>'Email o Clave es incorrecto.']);
-
-
->>>>>>> ef978eeb349a25ac441fc0ddcbd5f58a15ed4e5f
     }
+
+
     public function logout(Request $request)
     {
     	$input = $request->all();
