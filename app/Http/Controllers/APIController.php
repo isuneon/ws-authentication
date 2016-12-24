@@ -69,10 +69,4 @@ class APIController extends Controller
         }
     }
     
-    // public function get_user_details(Request $request)
-    // {
-    // 	$input = $request->all();
-    // 	$user = JWTAuth::toUser($input['token']);
-    //     return response()->json(['cod' => 'WS001', 'data' => ['token' => $token, 'userdata' => $user]]);
-    // }
 }
