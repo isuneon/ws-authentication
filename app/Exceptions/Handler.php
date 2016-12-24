@@ -35,6 +35,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
+
+        
+
         parent::report($e);
     }
 
@@ -48,19 +51,11 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
         
-        if (! $token = $this->auth->setRequest($request)->getToken()) {
-            return response()->json(['cod' => 'WS003', 'msg'=>trans('passwords.token.expired')], 400);
+
+        if($e->getStatusCode() == 403){
+            return response()->json(['cod' => 'WS003', 'msg'=>'no posee permisos'], 400);
         }
 
-        if ($exception instanceof TokenExpiredException) {
-           return response()->json(['cod' => 'WS003', 'msg'=>trans('passwords.token.expired')], 401);
-       }
-
-       if ($exception instanceof JWTException) {
-           return response()->json(['cod' => 'WS003', 'msg'=>trans('passwords.token.invalid')], 401);
-       }
-
-        
         return parent::render($request, $e);
     }
 }

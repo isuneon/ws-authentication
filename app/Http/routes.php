@@ -11,6 +11,7 @@
 |
 */
 
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -44,5 +45,16 @@ Route::group(['middleware' => ['cors','api'],'prefix' => 'api'], function () {
     Route::group(['middleware'=>['before'=>'jwt.auth']], function () {
     	Route::post('set_new_password', 'APIPasswordController@set_new_password');
     });
+
+
+// CRUD DE CLIENTES
+
+    Route::post('/user',            ['middleware' => ['role:admin|vend', 'before'=>'jwt.auth'], 'uses' => 'APIClientController@index']);
+    Route::post('/user/store',      ['middleware' => ['role:admin|vend', 'before'=>'jwt.auth'], 'uses' => 'APIClientController@store']);
+    Route::post('/user/update/{id}',['middleware' => ['role:admin|vend', 'before'=>'jwt.auth'], 'uses' => 'APIClientController@update']);
+    Route::post('/user/delete/{id}',['middleware' => ['role:admin|vend', 'before'=>'jwt.auth'], 'uses' => 'APIClientController@delete']);
+
 });
+
+
 

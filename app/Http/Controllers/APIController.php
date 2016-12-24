@@ -4,16 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\User;
 use Hash;
 use Auth;
+
 use JWTAuth;
 
 class APIController extends Controller
 {
+
     public function register(Request $request)
     {        
     	$input = $request->all();
@@ -49,9 +52,11 @@ class APIController extends Controller
             return response()->json(['cod' => 'WS001', 'msg'=>'Autenticado.', 'data' => ['token' => $token, 'user' => $user]]);
         }else{
             return response()->json(['cod' => 'V003'  , 'msg'=>'Email o Clave es incorrecto.']);
+
         }
 
     }
+
 
 
     public function logout(Request $request)
@@ -65,10 +70,17 @@ class APIController extends Controller
 
         }catch(\Exception $e){
                 return response()->json(['cod' => 'WS003'  , 'msg'=>'Token no existe']);
-
         }
+
+        return "usuario no existe";
     }
+
+
+  
+
     
+    
+
 
     // public function get_user_details(Request $request)
     // {
@@ -76,6 +88,7 @@ class APIController extends Controller
     // 	$user = JWTAuth::toUser($input['token']);
     //     return response()->json(['cod' => 'WS001', 'data' => ['token' => $token, 'userdata' => $user]]);
     // }
+
 
 
 }

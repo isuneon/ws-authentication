@@ -28,6 +28,7 @@
     24 => 'App\\Providers\\RouteServiceProvider',
     25 => 'App\\Providers\\EntrustCustomServiceProvider',
     26 => 'Tymon\\JWTAuth\\Providers\\JWTAuthServiceProvider',
+    27 => 'Zizaco\\Entrust\\EntrustServiceProvider',
   ),
   'eager' => 
   array (
@@ -46,6 +47,7 @@
     12 => 'App\\Providers\\RouteServiceProvider',
     13 => 'App\\Providers\\EntrustCustomServiceProvider',
     14 => 'Tymon\\JWTAuth\\Providers\\JWTAuthServiceProvider',
+    15 => 'Zizaco\\Entrust\\EntrustServiceProvider',
   ),
   'deferred' => 
   array (
